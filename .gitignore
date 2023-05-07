@@ -1,0 +1,10 @@
+.vercel
+
+# Ignore node_modules
+node_modules/
+
+# Ignore Next.js build output
+.next/
+
+# Ignore environment variables file
+.env*
