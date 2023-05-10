@@ -37,7 +37,7 @@ const About = () => {
                 </p>
                 <ul className="list-disc list-inside">
                   <li>Programming languages: [Python, Java, C, C++, TypeScript, JavaScript]</li>
-                  <li>Frameworks: [React, Next.js]</li>
+                  <li>Frameworks: [React, NextJS, TailwindCSS]</li>
                   <li>Tools: [Docker, Git, Jenkins, Kubernetes, Postman]</li>
                   <li>Platforms: [AWS, Google Cloud]</li>
                 </ul>
