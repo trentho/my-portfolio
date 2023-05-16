@@ -46,11 +46,12 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center md:w-1/2 mt-8 md:mt-0">
+          <div className="flex justify-center md:w-1/2 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden self-center ml-auto">
             <Image
               src={trentHeadshot}
               alt="Trent Ho"
-              className="w-40 h-48 rounded-full"
+              width={250}
+              height={320}
             />
           </div>
         </div>
