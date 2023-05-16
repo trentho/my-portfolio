@@ -1,5 +1,7 @@
 import React from "react";
 import { Navigation } from "../components/nav";
+import trentHeadshot from "/public/trent_picture.png";
+import Image from 'next/image';
 
 const About = () => {
   return (
@@ -45,11 +47,10 @@ const About = () => {
             </div>
           </div>
           <div className="flex justify-center md:w-1/2 mt-8 md:mt-0">
-            {/* Replace the src attribute with the URL of your image */}
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Your Name"
-              className="w-48 h-48 rounded-full"
+            <Image
+              src={trentHeadshot}
+              alt="Trent Ho"
+              className="w-40 h-48 rounded-full"
             />
           </div>
         </div>
