@@ -1,36 +1,116 @@
 ---
-title: MagicDuel
-description: A multiplayer game where you can fight other players and monsters.
+title: Picto-Mancers
+description: A multiplayer VR game where two players face off at the wizard duel court, and the last wizard standing wins. They must dodge incoming magic as they conjure various powers and effects such as fire, lightning and shield magic and cast their spells to their opponent’s side of the court.
 date: "2023-04-18"
-repository: trentho/MagicDuel
+repository: trentho/Picto-Mancers
 published: true
   
 ---
 
-QStash is an HTTP based messaging and scheduling solution for the serverless and edge runtimes.
+[![](https://img.youtube.com/vi/vwpZhnm2e5c/maxresdefault.jpg)](https://www.youtube.com/watch?v=vwpZhnm2e5c)
+- Click on the image above to watch the gameplay video.
 
-- 100% serverless, no stateful connections required. Messages are pushed to your API.
-- At-least-once delivery guaranteed to any public API
-- Pubsub via topics
-- Delay message delivery
-- Message deduplication
-- Scheduling via CRON
+# Purpose
 
+This project was created as a part of the VR Development for Games course at the University of Texas at Austin. The purpose was to make a fun and complete multiplayer game that made use of the Meta Quest 2’s roomscale capabilities.
 
-Formally, QStash is a message queue and task scheduler designed for serverless runtimes. Informally, QStash is a glue for your serverless functions.
+# Team
 
-There was a perception serverless was only good for simple tasks. Not anymore. People build powerful systems with serverless stack. Powerful systems are composed of multiple components. Communication among those components is a big engineering problem. There are already great solutions for this problem. But we think existing solutions do not fit in serverless space. Either they are too complex or not designed to work with stateless runtimes. So we want a solution which (is):
-
-- Works anywhere including serverless and edge.
-- Messaging as a service with no backend for users to run.
-- Lightweight, easy to understand, requires nothing to learn.
-- Price scales to zero.
-
-Let's talk about a real world example. We have an e-commerce app and we want to send an informational email after each purchase. We have a service (an API route) for new purchases (newPurchase) and a second service for sending emails and notifications (sendEmail). We can call the sendEmail service from the newPurchase service. But what if the call fails? Should we wait for the response and retry? What if too many calls congest the sendEmail service and the service does not respond on time? You need to handle all these cases in your newPurchase service. Moreover, when you change the contract of sendEmail service; you have to update your newPurchase service too.
-
-If you use QStash in the above example, you simply send a request to QStash from the newPurchase service. QStash will queue the request and call the sendEmail service. If the service does not respond, QStash will retry with a backoff strategy. The latency of sendEmail service will not affect the newPurchase service, because it will not wait for a response from the sendEmail service. QStash decouples the newPurchase and sendEmail services. You can update both services independently as long as you keep the message format compatible.
-
-With QStash, you can add delays to the requests. Send an email 3 days after the shipment to remind the customer to add a review. You can also schedule tasks. You can send the requests with a CRON expression, so it will be run repetitively.
+Our team consists of six students: Yvonne Chen, Josef Genet, Trent Ho, Colin Liu, James Ouyang and Eric Yang.
+Also, many thanks to Professor MJ Johns, who advised us through this project.
 
 
-To learn more about QStash, visit [upstash.com/qstash](upstash.com/qstash).
+
+# Ideation Phase
+
+After completing prototypes for other games earlier in the semester, we chose groups for the final project. Our team came from two different groups that had initially made a rhythm game and a magic casting game, respectively. We considered continuing these projects and also brainstormed many new ideas such as volleyball, bowling, or cooking games. In the end, we wanted to focus on multiplayer, and taking inspiration from games like One Step From Eden, Clash Royale, and Rumble, we decided to create an online multiplayer spellcasting duel game.
+
+![Alt Text](/projectimage/rumble.png)
+- Rumble
+
+![Alt Text](/projectimage/OneStepFromEden.png)
+- One Step From Eden
+
+![Alt Text](/projectimage/ClashRoyale.png)
+- Clash Royale
+
+
+
+# Story and Narrative Design
+
+Two mages from neighboring countries have a fight to the death. The fate of their homelands depends on the battle that ensues. While the story is not explicitly mentioned, the map design hints at this conflict with color-coded sides of each field. The battle takes place at the border between their lands.
+
+
+# Gameplay and Mechanics
+
+In this game, players use the Meta Quest 2 controllers to select spells with either hand by drawing the appropriate symbol. Once selected, the spell can be cast from that hand by pulling the trigger on the controller. Each player has a deck of cards that determines which spells are available to use at a given moment. Each spell card in the deck has information about the spell, such as the symbol you must draw in order to cast it. The player must use these various magic spells to attack their opponent and defend themselves (or dodge incoming spells), with the aim being to reduce their opponent’s health to zero.
+
+Players connect with one another over a local area network in order to play together.
+
+![Alt Text](/projectimage/Gameplay.png)
+
+![Alt Text](/projectimage/gameplay2.png)
+
+# Aesthetic Style
+
+Our art style is bright and colorful, and spells have flashy and cartoony effects. Below are examples of the fireball, lightning, meteor, and poison spells. The flashy particle effects help sell the impact of each spell.
+
+![Alt Text](/projectimage/fireball.png)
+- The fireball spell
+
+![Alt Text](/projectimage/lightning.png)
+- The lightning spell
+
+![Alt Text](/projectimage/meteor.png)
+- The meteor spell
+
+![Alt Text](/projectimage/meteorpoison.png)
+- The poison spell
+
+![Alt Text](/projectimage/emeraldkingdom.png)
+- Emerald Kingdom Level
+
+# Technical Documentation
+
+XR Interaction Toolkit
+The XR Interaction Toolkit is a package developed by Unity with useful scripts and tools for developing XR games. We used the package to perform head and hand tracking with the Meta Quest 2 headsets, as well as perform raycasts to cast spells and interact with UI. 
+
+
+![Alt Text](/projectimage/xrinteraction.png)
+
+- Using XR Interaction Toolkit’s Ray Interactor to Interact with UI
+
+
+# Unity Netcode
+
+We used Unity’s built-in netcode to support local area network multiplayer. Players can host and name servers and also search for other servers to join. After a match is complete, players can choose to rematch or disconnect. A rematch will only occur if both players agree to another match.
+
+
+# Gesture Recognition System
+
+To develop a smart gesture recognition system, we trained a machine learning model to classify drawings. More specifically, the model we built is a convolutional neural network that takes a 28 pixel by 28 pixel grayscale image and outputs the probability of the image being of a set of categories.
+To develop this model, we first took doodleNet, an existing model trained on Google’s QuickDraw Dataset, a large dataset of over 50 million drawings each labeled with one of 345 categories. We then transferred the weights of doodleNet to our own model so that we can train the new model on our own set of categories with little training data, all while achieving similar results to doodleNet. 
+To create training data for our gestures, we developed an app where we can draw gestures and save them into a dataset. The below screenshot shows a gallery of part of the training data for the “circle” gesture, which is used for the fireball spell. 
+
+![Alt Text](/projectimage/trainingdata.png)
+- A screenshot of the app we used to create training data
+
+We created around 100 to 200 images for each gesture. After performing data augmentation by reflecting and rotating each drawing, we have a total of 1000 to 2000 images for each gesture. Training the model with this gives an accuracy of around 95%. Below is a graph of the results of training:
+
+![Alt Text](/projectimage/modelaccuracy.png)
+
+- Model accuracy and loss after each training epoch. The blue line is the training data’s accuracy and loss, and the orange line is the validation data (data not used in training).
+
+
+Finally, after the model is trained to recognize gestures, we imported the model into Unity and used Unity’s Barracuda library to run the model.
+
+![Alt Text](/projectimage/gesturerecog.png)
+- Screenshot of the gesture recognition model working in Unity.
+
+
+# Spell ScriptableObject System
+
+In order to make it easy to implement a wide variety of unique spells, we built our magic system using ScriptableObjects. Instead of storing many different prefabs, scriptable objects allowed us to instead represent each spell as a collection of data (a script defining its behavior, particle effects to play, stats like speed, damage, etc).
+The ScriptableObject setup allows different parts of the game to access relevant information about each spell from its behavior script. For instance, casting any spell instantiates a SpellBase prefab that is assigned a SpellBehavior ScriptableObject by the SpellManager when it is created. Then, the SpellBase object can call the appropriate functions (as defined in the SpellBehavior) whenever the spell is cast, while it is flying, or when it hits something. The SpellManager and SpellDeck also use the information in the ScriptableObjects to track which spells are available and display the relevant information on each spell card.
+
+![Alt Text](/projectimage/spellsystem.png)
