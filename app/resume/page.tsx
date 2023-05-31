@@ -2,7 +2,7 @@ import React from "react";
 import { Navigation } from "../components/nav";
 
 const Resume = () => {
-  const resumeUrl = "/HoTrent05.2023_RESUME.pdf";
+  const resumeUrl = "/HoTrentRESUME.pdf";
 
   return (
     <div className="bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
